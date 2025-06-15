@@ -37,7 +37,7 @@ RUN apt-get update && \
     tar -xJf node-v22.16.0-linux-arm64.tar.xz -C /opt && \
     rm node-v22.16.0-linux-arm64.tar.xz && \
     mv /opt/node-v22.16.0-linux-arm64 /opt/node
-RUN  apt-get install -y bash
+
 ENV PATH="/opt/node/bin:$PATH"
 
 WORKDIR /app
@@ -51,7 +51,7 @@ RUN chmod +x run.sh
 
 # ---------- Stage 2: Final Runtime Layer ----------
 FROM grafana/k6:master-with-browser
-
+RUN  apt-get update && apt-get install -y bash
 # Copy Node.js from builder stage
 COPY --from=builder /opt/node /opt/node
 ENV PATH="/opt/node/bin:$PATH"
@@ -61,5 +61,5 @@ COPY --from=builder /app /app
 WORKDIR /app
 
 # Set entrypoint
-ENTRYPOINT ["bash", "./run.sh"]
+ENTRYPOINT ["/bin/bash", "./run.sh"]
 
