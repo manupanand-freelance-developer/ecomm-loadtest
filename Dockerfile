@@ -32,12 +32,12 @@ FROM debian:bullseye-slim AS builder
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y curl xz-utils bash && \
+    apt-get install -y curl xz-utils  && \
     curl -LO https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-arm64.tar.xz && \
     tar -xJf node-v22.16.0-linux-arm64.tar.xz -C /opt && \
     rm node-v22.16.0-linux-arm64.tar.xz && \
     mv /opt/node-v22.16.0-linux-arm64 /opt/node
-
+RUN  apt-get install -y bash
 ENV PATH="/opt/node/bin:$PATH"
 
 WORKDIR /app
