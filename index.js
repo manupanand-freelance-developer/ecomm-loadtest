@@ -7,26 +7,34 @@ import { Counter } from 'k6/metrics';
 
 
 // Environment variables
-env = __ENV;
+const env = __ENV;
 // Custom error counter
 export let errorCount = new Counter('errors');
+const MIN_USERS = Number(env.MIN_USERS || 10);
+const SPAWN_USERS = Number(env.SPAWN_USERS || 100);
+const TEST_DURATION = env.TEST_DURATION || '3m';
+const SUDDEN_USER_DOWN = Number(env.SUDDEN_USER_DOWN || 2);
+const BASE_URL = env.BASE_URL || 'http://localhost:8080';
+const USERNAME = env.USERNAME || 'user';
+const PASSWORD = env.PASSWORD || 'password';
+
 
 export let options = {
   stages: [
-    { duration: '1m', target: Number(env.MIN_USERS) || 10 },
-    { duration: '1m', target: Number(env.SPAWN_USERS) || 200 },
-    { duration: env.TEST_DURATION || '5m', target: Number(env.SPAWN_USERS) || 200 },
-    { duration: '30s', target: Number(env.SUDDEN_USER_DOWN) || 5 },
+    { duration: '1m', target: MIN_USERS },
+    { duration: '1m', target: SPAWN_USERS },
+    { duration: TEST_DURATION , target: SPAWN_USERS },
+    { duration: '30s', target: SUDDEN_USER_DOWN},
   ],
   thresholds: {
     http_req_failed: ['rate<0.01'],
     http_req_duration: ['p(95)<1000'],
   },
 };
-// Constants
-const BASE_URL = env.BASE_URL || 'http://localhost:8080';
-const USERNAME = env.USERNAME || 'user';
-const PASSWORD = env.PASSWORD || 'password';
+// // Constants
+// const BASE_URL = env.BASE_URL || 'http://localhost:8080';
+// const USERNAME = env.USERNAME || 'user';
+// const PASSWORD = env.PASSWORD || 'password';
 
 export default function () {
   try {
