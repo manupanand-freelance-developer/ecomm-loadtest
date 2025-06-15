@@ -1,0 +1,36 @@
+# Example Inputs for Load Test Container
+base_url: env_url
+endpoints:
+  - "/"
+  - "/login"
+  - "/products"
+  - "/product/12345"
+  - "/cart"
+  - "/checkout"
+
+
+username: user
+email: user@gmail.com
+password: password
+
+scenario:
+  - view homepage
+  - browse a product
+  - add to cart
+  - checkout
+  - payment
+
+load:
+  minimum_users: 10-25
+  users_spike: 200 |dynamically give using env  prefer to increase sudden floak of users  200-300
+  sudden_user_down: 5
+  spawn_rate: 20 |dynamically give using env
+  duration: "10m"  #  dynamically give using env
+
+tool: k6  # options: locust, k6, jmeter
+kubernetes:
+  mode: job
+  access: internal-dns  # or "ingress"
+reporting: html
+
+#add routing to prometheus and grafana

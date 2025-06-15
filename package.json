@@ -1,0 +1,19 @@
+{
+  "name": "load-test",
+  "version": "1.0.0",
+  "description": "load testing for ecommerce",
+  "main": "index.js",
+  "scripts": {
+    "test": "k6 run index.js",
+    "test:dev": "MIN_USERS=1 SPAWN_USERS=10 TEST_DURATION=1m BASE_URL=http://localhost:8080 k6 run index.js",
+    "test:prod": "MIN_USERS=100 SPAWN_USERS=1000 TEST_DURATION=10m BASE_URL=https://your-prod.com k6 run index.js"
+  },
+  "author": "manupannad",
+  "license": "MIT",
+  "dependencies": {
+    "k6": "^0.0.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^8.0.0"
+  }
+}
