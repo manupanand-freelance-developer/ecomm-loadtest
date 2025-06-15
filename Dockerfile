@@ -52,7 +52,7 @@ RUN chmod +x run.sh
 # ---------- Stage 2: Final Runtime Layer ----------
 FROM grafana/k6:master-with-browser
 # RUN  apt-get update && apt-get install -y bash
-RUN apk add --no-cache bash
+#RUN apk add --no-cache bash
 # Copy Node.js from builder stage
 COPY --from=builder /opt/node /opt/node
 ENV PATH="/opt/node/bin:$PATH"
@@ -62,5 +62,5 @@ COPY --from=builder /app /app
 WORKDIR /app
 
 # Set entrypoint
-ENTRYPOINT ["/bin/bash", "./run.sh"]
+ENTRYPOINT ["sh", "./run.sh"]
 

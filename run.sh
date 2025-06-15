@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 
 echo "Running k6 test..."
