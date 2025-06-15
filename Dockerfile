@@ -32,7 +32,7 @@ FROM debian:bullseye-slim AS builder
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y curl xz-utils && \
+    apt-get install -y curl xz-utils bash && \
     curl -LO https://nodejs.org/dist/v22.16.0/node-v22.16.0-linux-arm64.tar.xz && \
     tar -xJf node-v22.16.0-linux-arm64.tar.xz -C /opt && \
     rm node-v22.16.0-linux-arm64.tar.xz && \
